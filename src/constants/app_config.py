@@ -1,0 +1,1 @@
+USER_PROMPT_INPUT_MESSAGE = 'Please, enter the search term: '
