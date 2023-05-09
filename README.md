@@ -13,7 +13,7 @@ This solution is based on the Javapoint tutorial [Automate the Google search usi
 1. Receive input from a user.
 2. Perform the following searches: 
     * Double quoted search: "Ricardo Arjona"
-    d
+
     * Double quoted search + search by site: site:instagram.com "Ricardo Arjona"
 
     * Double quoted search + search in URL: inurl:"Ricardo Arjona"
@@ -30,7 +30,7 @@ This solution is based on the Javapoint tutorial [Automate the Google search usi
 <br>
 
 
-# Depencies 
+# Dependencies 
 
 ```bash
 # https://github.com/Nv7-GitHub/googlesearch
