@@ -1,59 +1,57 @@
-from googlesearch import search
-import sys
-
+from core.google_searcher import GoogleSearcher
 from helpers.custom_input import CustomInput
 
-
-class GoogleSearcher:
-    
-    def __init__(self):
-        self.search_count = None
-        self.keyword_to_search = None
-        self.search_results = None
-    
-    def set_num_of_searches(self):
-        print("Enter the number of search results you want to display for each Google search.")
-        user_input = int(input())
-        self.search_count = user_input
-        print("\n")
-
-    def enter_keyword(self):
-        print("Enter the text for the Google Search: ")
-        user_input = input()
-        self.keyword_to_search = user_input
-        print("\n")
-
-    def perform_search(self):
-        try:
-            results = search(self.keyword_to_search, num_results=self.search_count)
-            self.search_results = results
-            print("Google Search performed successfully.")
-        except Exception as e:
-            print(e)
-            print("Google Search faced an Exception.")
-        finally:
-            print("\n")
-    
-    def print_search_results(self):
-        print( "The results for {} keywords are: ".format(self.keyword_to_search) )
-
-        count = 1
-
-        for search_result in self.search_results:
-            print("Search No. {} -> {}".format(count, search_result))
-            count = count + 1
-
-        print("\n")
+from constants.app_config import NUMBER_OF_RESULTS_PER_SEARCH, OUTPUT_FILE_FORMAT, OUTPUT_FILE_NAME_INPUT_MESSAGE, SEARCH_TERM_INPUT_MESSAGE
 
 
 def main():  
     input_handler = CustomInput()
     google_search_handler =  GoogleSearcher()  
 
-    user_input = input_handler.get_user_input()
+    user_input: str = input_handler.get_user_input(SEARCH_TERM_INPUT_MESSAGE)
+    file_name_without_format: str = input_handler.get_user_input(OUTPUT_FILE_NAME_INPUT_MESSAGE)
+    output_file_name: str = f'{file_name_without_format}.{OUTPUT_FILE_FORMAT}'
 
-    print('DA USER INPUT: ', user_input)
-        
+    search_results_1 = google_search_handler.perform_search(user_input)
+    search_results_2 = google_search_handler.perform_double_quoted_search(user_input)
+    search_results_3 = google_search_handler.perform_by_site_search(user_input)
+    search_results_4 = google_search_handler.perform_in_url_search(user_input)
+    search_results_5 = google_search_handler.perform_in_title_search(user_input)
+    search_results_6 = google_search_handler.perform_in_text_search(user_input)
+    search_results_7 = google_search_handler.perform_file_type_search(user_input)
+
+    with open(output_file_name, 'w', encoding='utf-8') as output_file:
+        output_file.write(f'DA SEARCH TERM: {user_input}\n')
+        output_file.write(f'Number of results per search: {NUMBER_OF_RESULTS_PER_SEARCH}\n')
+        output_file.write('\n' * 2)
+
+        output_file.write('### 1. Simple search ###\n')
+        google_search_handler.write_to_file(output_file, search_results_1)
+        output_file.write('\n' * 2)
+
+        output_file.write('### 2. Double quoted search ###\n')
+        google_search_handler.write_to_file(output_file, search_results_2)
+        output_file.write('\n' * 2)
+
+        output_file.write('### 3. Double quoted search + search by site ###\n')
+        google_search_handler.write_to_file(output_file, search_results_3)
+        output_file.write('\n' * 2)
+
+        output_file.write('### 4. Double quoted search + search in URL ###\n')
+        google_search_handler.write_to_file(output_file, search_results_4)
+        output_file.write('\n' * 2)
+
+        output_file.write('### 5. Double quoted search + search in title ###\n')
+        google_search_handler.write_to_file(output_file, search_results_5)
+        output_file.write('\n' * 2)
+
+        output_file.write('### 6. Double quoted search + search in text ###\n')
+        google_search_handler.write_to_file(output_file, search_results_6)
+        output_file.write('\n' * 2)
+
+        output_file.write('### 7. Double quoted search + search by file type ###\n')
+        google_search_handler.write_to_file(output_file, search_results_7)
+        output_file.write('\n' * 2)
  
     
 if __name__ == '__main__':  
